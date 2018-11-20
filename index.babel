@@ -1,0 +1,117 @@
+//Marked Renderer
+// INSERTS target="_blank" INTO HREF TAGS (required for codepen links)
+const renderer = new marked.Renderer();
+renderer.link = function (href, title, text) {
+  return `<a target="_blank" href="${href}">${text}` + '</a>';
+}
+//Markdown previewer interprets carriage returns and renders them as <br> (line break) elements (HINT: read the Marked.js docs for this one!).
+marked.setOptions({
+  breaks: true,
+});
+
+
+//App
+class App extends React.Component{
+  constructor(props) {
+    super(props);
+    this.state =  {
+      markdown: placeholder
+      
+    }
+    this.handleChange = this.handleChange.bind(this);
+  }
+  handleChange(e) {
+    this.setState({
+      markdown: e.target.value
+    });
+  }
+  
+  render(){
+    const markdown = this.state.markdown
+    return (
+    <div>
+      <div id='preview' dangerouslySetInnerHTML={{__html: marked(markdown, { renderer: renderer })}} />
+
+      <div className="editor">
+          <form onSubmit={this.handleSubmit}>
+            
+          <textarea id="editor" value={this.state.markdown} onChange={this.handleChange} cols={130} rows={10} /> 
+            
+          </form> 
+       </div> 
+       <Editor markdown={this.state.markdown} 
+            onChange={this.handleChange} cols={130} rows={10}/>
+      </div>  
+    );      
+  }
+};
+
+
+
+//Editor textarea and Previewer
+const Editor = (props) => {
+  return (
+    <textarea id="editor"
+      value={props.markdown}
+      onChange={props.onChange}
+      type="text"/>
+    )
+}
+
+const Preview = (props) => {
+  return (
+      <div id='preview' dangerouslySetInnerHTML={{__html: marked(props.markdown, { renderer: renderer })}} />
+    )
+}
+//Estara demas el previewer?
+
+//Placeholder
+const placeholder = 
+`<H1> Welcome to my FreeCodeCamp:</H1> 
+
+# React Markdown Previewer!
+
+## This is a Sub-heading...You may change it in the Editor...
+### And here's some other cool stuff:
+Here is: \`<div>CODE</div>\`, between 2 backticks.
+
+
+  
+ **This is a BOLD text**
+Or _italic text_.
+ **_HERE IS BOLD and italic text!_**
+~~crossing out text~~.
+
+There's also [links](https://www.freecodecamp.com), and
+> To Be, or NOT To Be!
+
+\`\`\`
+// this is multi-line code:
+
+function myExample(start, end) {
+  if (start == '\`\`\`' && end == '\`\`\`') {
+    return multiLineCode;
+  }
+}
+\`\`\`
+
+- You can make up lists.
+  - Bulleted lists.
+     - Or even lists with different indentation levels.
+        - Lists under more lists.
+
+
+1. You may do numbererd lists.
+ 
+1. Number Two ...
+- You may or may not use dashes or asterisks, and the number appears!.  
+
+Finally, we can have embedded images:
+
+![Sloth Eating](https://www.natursidan.se/wp-content/uploads/2014/11/sengangare-MC_Drei-Finger-Faultier.jpg)
+
+
+`
+
+ReactDOM.render(<App />, document.getElementById('app'));
+

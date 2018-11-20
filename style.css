@@ -1,0 +1,24 @@
+#app {
+  margin: 0 auto;
+  text-align: left;
+  background-color: #CEBD8A;
+}
+
+#preview {
+  color: brown;
+  margin-left: 125px;
+  padding-top: 30px;
+}
+
+#editor {
+  color: blue;
+  margin-left: 30px;
+}
+
+H1 {
+  color: #583B3B;
+}
+
+H2 {
+  color: gray;
+}
